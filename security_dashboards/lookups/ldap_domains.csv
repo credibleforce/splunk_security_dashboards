@@ -1,0 +1,2 @@
+domain,baseDN,enabled
+EXAMPLE,"DC=example,DC=com",0

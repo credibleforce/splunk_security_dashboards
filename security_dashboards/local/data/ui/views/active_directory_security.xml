@@ -1,5 +1,27 @@
-<dashboard>
+<form>
   <label>Active Directory Overview</label>
+  <fieldset submitButton="true">
+    <input type="time" token="time_token">
+      <label>Time Period</label>
+      <default>
+        <earliest>-48h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="dropdown" token="domain_token">
+      <label>Domain</label>
+      <choice value="*">All</choice>
+      <default>*</default>
+      <fieldForLabel>domain</fieldForLabel>
+      <fieldForValue>domain</fieldForValue>
+      <search>
+        <query>| inputlookup ldap_domains.csv 
+|  table domain</query>
+        <earliest>-24h</earliest>
+        <latest>now</latest>
+      </search>
+    </input>
+  </fieldset>
   <row>
     <panel>
       <html>
@@ -14,8 +36,8 @@
       <title>Enabled Accounts with No Login for 6 Months</title>
       <chart>
         <search>
-          <query>`activedirectory_users` earliest=-48h 
-    [ search `activedirectory_users` earliest=-48h 
+          <query>`activedirectory_users` domain=$domain_token$  
+    [ search `activedirectory_users`  
     | stats latest(taskid) AS taskid] NOT useraccountcontrol{} IN (ACCOUNTDISABLE) 
 | eval pwdlastset_epoch=strptime(pwdlastset,"%Y-%m-%dT%H:%M:%S.%f") 
 | eval pwdlastset_days=round((now()-pwdlastset_epoch)/86400,0) 
@@ -26,8 +48,8 @@
 | bucket span=1y lastlogontimestamp_epoch 
 | chart count by lastlogontimestamp_epoch 
 | eval lastlogontimestamp_epoch=strftime(lastlogontimestamp_epoch,"%Y")</query>
-          <earliest>-48h</earliest>
-          <latest>now</latest>
+          <earliest>$time_token.earliest$</earliest>
+          <latest>$time_token.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
@@ -68,8 +90,8 @@
       <title>Enabled Accounts with Login Last 30 days and Password Not Change in More than 1 Year</title>
       <chart>
         <search>
-          <query>`activedirectory_users` earliest=-48h
-    [ search `activedirectory_users` earliest=-48h
+          <query>`activedirectory_users` domain=$domain_token$ 
+    [ search `activedirectory_users` 
     | stats latest(taskid) AS taskid] NOT useraccountcontrol{} IN (ACCOUNTDISABLE) 
 | eval pwdlastset_epoch=strptime(pwdlastset,"%Y-%m-%dT%H:%M:%S.%f") 
 | eval pwdlastset_days=round((now()-pwdlastset_epoch)/86400,0) 
@@ -80,8 +102,8 @@
 | bucket span=1mon pwdlastset_epoch 
 | chart count by pwdlastset_epoch 
 | eval pwdlastset_epoch=strftime(pwdlastset_epoch,"%Y-%m")</query>
-          <earliest>-48h</earliest>
-          <latest>now</latest>
+          <earliest>$time_token.earliest$</earliest>
+          <latest>$time_token.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
@@ -124,8 +146,8 @@
       <title>Users Created Summary</title>
       <table>
         <search>
-          <query>`activedirectory_users` earliest=-48h
-    [ search `activedirectory_users` earliest=-48h
+          <query>`activedirectory_users` domain=$domain_token$ 
+    [ search `activedirectory_users` 
     | stats latest(taskid) AS taskid] NOT useraccountcontrol{} IN (ACCOUNTDISABLE)
 | eval pwdlastset_epoch=strptime(pwdlastset,"%Y-%m-%dT%H:%M:%S.%f") 
 | eval pwdlastset_days=round((now()-pwdlastset_epoch)/86400,0) 
@@ -139,14 +161,15 @@
 | eval created_days_ago=whencreated_days
 | stats count AS users, list(samaccountname) AS samaccountname by created_days_ago 
 |  sort created_days_ago</query>
-          <earliest>-48h</earliest>
-          <latest>now</latest>
+          <earliest>$time_token.earliest$</earliest>
+          <latest>$time_token.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="count">20</option>
         <option name="dataOverlayMode">none</option>
         <option name="drilldown">none</option>
         <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
         <option name="totalsRow">false</option>
         <option name="wrap">true</option>
@@ -158,16 +181,16 @@
       <title>Users Pending Password Reset</title>
       <table>
         <search>
-          <query>`activedirectory_users` earliest=-48h
-    [ search `activedirectory_users` earliest=-48h
+          <query>`activedirectory_users` domain=$domain_token$ 
+    [ search `activedirectory_users` 
     | stats latest(taskid) AS taskid] NOT useraccountcontrol{} IN (ACCOUNTDISABLE) pwdlastset="(never)" 
 | eval pwdlastset_epoch=strptime(pwdlastset,"%Y-%m-%dT%H:%M:%S.%f") 
 | eval pwdlastset_days=round((now()-pwdlastset_epoch)/86400,0) 
 | eval lastlogontimestamp_epoch=strptime(lastlogontimestamp,"%Y-%m-%dT%H:%M:%S.%f") 
 | eval lastlogontimestamp_days=round((now()-lastlogontimestamp_epoch)/86400,0) 
 | table samaccountname, description, useraccountcontrol{}, accountexpires, lastlogontimestamp,lastlogontimestamp_epoch,lastlogontimestamp_days, pwdlastset, pwdlastset_epoch,pwdlastset_days, whencreated, whenchanged</query>
-          <earliest>-48h</earliest>
-          <latest>now</latest>
+          <earliest>$time_token.earliest$</earliest>
+          <latest>$time_token.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="count">20</option>
@@ -186,12 +209,12 @@
       <title>Accounts with Possible Password in Description</title>
       <table>
         <search>
-          <query>`activedirectory_users` earliest=-48h
-    [ search `activedirectory_users` earliest=-48h
+          <query>`activedirectory_users` domain=$domain_token$ 
+    [ search `activedirectory_users` 
     | stats latest(taskid) AS taskid] description IN ("*pw*", "*pwd*", "*!*", "*$*", "*@@*", "*=*", "*2016", "*2017", "*2018", "*2019", "*summer*","*winter*","*fall*","*spring*" ) 
 | table samaccountname, description, useraccountcontrol{}, accountexpires, lastlogontimestamp, pwdlastset, whencreated, whenchanged</query>
-          <earliest>-48h</earliest>
-          <latest>now</latest>
+          <earliest>$time_token.earliest$</earliest>
+          <latest>$time_token.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="count">100</option>
@@ -210,16 +233,16 @@
       <title>Enabled Accounts with No Password Required and Not Set</title>
       <table>
         <search>
-          <query>`activedirectory_users` earliest=-48h@h 
-    [ search `activedirectory_users` earliest=-48h@h 
+          <query>`activedirectory_users` domain=$domain_token$  
+    [ search `activedirectory_users`  
     | eval taskid=coalesce(taskid,_time) 
     | fields taskid 
     | dedup taskid 
     | head 1 
     | table taskid] useraccountcontrol{} IN (PASSWD_NOTREQD) NOT useraccountcontrol{} IN (ACCOUNTDISABLE) pwdlastset=0 
 | table objectsid, domain, name, samaccountname, lastlogontimestamp, pwdlastset, whencreated, whenchanged, useraccountcontrol{}</query>
-          <earliest>-48h</earliest>
-          <latest>now</latest>
+          <earliest>$time_token.earliest$</earliest>
+          <latest>$time_token.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="count">20</option>
@@ -247,13 +270,13 @@
       <title>Enabled Domain Computers by Operating System</title>
       <chart>
         <search>
-          <query>`activedirectory_computers` earliest=-48h@h 
-    [ search `activedirectory_computers` earliest=-48h@h 
+          <query>`activedirectory_computers` domain=$domain_token$  
+    [ search `activedirectory_computers`  
     | stats latest(taskid) AS taskid] NOT useraccountcontrol{} IN (ACCOUNTDISABLE) operatingsystem=* 
 | stats count by operatingsystem 
 | sort - count</query>
-          <earliest>-48h</earliest>
-          <latest>now</latest>
+          <earliest>$time_token.earliest$</earliest>
+          <latest>$time_token.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
@@ -305,19 +328,19 @@
       <title>Privileged Group Membership</title>
       <table>
         <search>
-          <query>`activedirectory_admin_groups`  earliest=-48h
-    OR [search `activedirectory_admin_groups` earliest=-48h | stats latest(taskid) AS taskid by admin_group_dn] 
+          <query>`activedirectory_admin_groups` domain=$domain_token$  
+          [search `activedirectory_admin_groups`  | stats latest(taskid) AS taskid by admin_group_dn] 
 |  table admin_group_dn, name, samaccountname, objectcategory, objectclass{}, objectsid
 |  join objectsid type=outer
-    [ search `activedirectory_users` earliest=-48h
-        [ search `activedirectory_users` earliest=-48h
+    [ search `activedirectory_users` 
+        [ search `activedirectory_users` 
         |  stats latest(taskid) AS taskid 
         ]
     | table objectsid, "useraccountcontrol{}"
     ]
 |  join admin_group_dn type=outer
-    [ search `activedirectory_groups` earliest=-48h
-        [ search `activedirectory_groups` earliest=-48h
+    [ search `activedirectory_groups` 
+        [ search `activedirectory_groups` 
         |  stats latest(taskid) AS taskid 
         ]
     | eval admin_group_name=name
@@ -330,8 +353,8 @@
 |  eval disabled=if(isnull(mvfind('useraccountcontrol{}',"ACCOUNTDISABLE")),""," (disabled)")
 |  eval user=samaccountname+disabled, group=admin_group_name
 | stats list(user) as user by admin_group_name</query>
-          <earliest>-48h</earliest>
-          <latest>now</latest>
+          <earliest>$time_token.earliest$</earliest>
+          <latest>$time_token.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="count">100</option>
@@ -345,4 +368,4 @@
       </table>
     </panel>
   </row>
-</dashboard>
+</form>
