@@ -108,11 +108,11 @@ The section below describes some fundamentals for security monitoring using the 
 
 ### Example Query Format Filter by Event Type and Send to Index
 ```
-index=windows source="wineventlog:security" signature_id=4625
+`windows_event_index` source="wineventlog:security" signature_id=4625
 ``` Alert Details ```
 | eval alert_name="UC01 - Many Failed Logins Per User"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Brute Force: Password Guessing"
 | eval mitre_technique="Credential Access" 
@@ -138,11 +138,11 @@ index=windows source="wineventlog:security" signature_id=4625
 
 ### Example Query Format Filter by Event Count and Send to Index
 ```
-index=windows source="wineventlog:security" signature_id=4625
+`windows_event_index` source="wineventlog:security" signature_id=4625
 ``` Alert Details ```
 | eval alert_name="UC01 - Many Failed Logins Per User"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Brute Force: Password Guessing"
 | eval mitre_technique="Credential Access" 
@@ -245,7 +245,7 @@ by src_user
 #### Search
 ```
 ``` Capture NTLM and Kerberos Failed Authentication (4625 can be included but may cause duplicates) ```
-index=windows source="wineventlog:security" 
+`windows_event_index` source="wineventlog:security" 
   (
   	(EventCode=4771 Failure_Code=0x18) 
   	OR (EventCode=4776 Error_Code=0xC000006A)
@@ -258,7 +258,7 @@ index=windows source="wineventlog:security"
 ``` Alert Details ```
 | eval alert_name="UC01 - Many Failed Logins Per User"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Credential Access"
 | eval mitre_technique="Brute Force: Password Guessing" 
@@ -363,11 +363,11 @@ BADPASSWORD
 #### Search
 ```
 ``` Event Log Cleared ```
-index=windows source="wineventlog:security"  EventCode=1102
+`windows_event_index` source="wineventlog:security"  EventCode=1102
 ``` Alert Details ```
 | eval alert_name="UC02 - Event Log Cleared"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Defense Evasion"
 | eval mitre_technique="Clear Windows Event Logs" 
@@ -404,11 +404,11 @@ powershell > Clear-EventLog –LogName Security
 #### Search 
 ```
 ``` ZeroLogon Indicator ```
-index=windows source="wineventlog:system"  EventCode=5829
+`windows_event_index` source="wineventlog:system"  EventCode=5829
 ``` Alert Details ```
 | eval alert_name="UC03 - Netlogon service allowed insecure channel"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Lateral Movement"
 | eval mitre_technique="Exploitation of Remote Services" 
@@ -449,11 +449,11 @@ powershell > Test-ComputerSecureChannel
 #### Search
 ```
 ``` Improper Code Signing ```
-index=windows source="wineventlog:security"  EventCode=6281
+`windows_event_index` source="wineventlog:security"  EventCode=6281
 ``` Alert Details ```
 | eval alert_name="UC04 - Improperly signed image loaded into kernel"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Defense Evasion"
 | eval mitre_technique="Code Signing" 
@@ -485,11 +485,11 @@ index=windows source="wineventlog:security"  EventCode=6281
 #### Search
 ```
 ``` Corrupt Image ```
-index=windows source="wineventlog:security"  EventCode=5038
+`windows_event_index` source="wineventlog:security"  EventCode=5038
 ``` Alert Details ```
 | eval alert_name="UC05 - Corrupt image loaded"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Defense Evasion"
 | eval mitre_technique="Process Hollowing" 
@@ -522,13 +522,13 @@ index=windows source="wineventlog:security"  EventCode=5038
 
 ```
 ``` Account Lockout ```
-index=windows source="wineventlog:security"  EventCode=4740
+`windows_event_index` source="wineventlog:security"  EventCode=4740
 ``` Custom CIM Field Handling ```
 | eval dest_user=coalesce(dest_user,user)
 ``` Alert Details ```
 | eval alert_name="UC06 - User account locked out"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Credential Access"
 | eval mitre_technique="Brute Force" 
@@ -577,13 +577,13 @@ BADPASSWORD
 #### Search
 ```
 ``` Explicit Creds ```
-index=windows source="wineventlog:security"  EventCode=4648
+`windows_event_index` source="wineventlog:security"  EventCode=4648
 ``` Custom CIM Field Handling ```
 | eval dest_user=coalesce(dest_user,user)
 ``` Alert Details ```
 | eval alert_name="UC07 - Explicit creds used for logon"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Credential Access"
 | eval mitre_technique="Brute Force" 
@@ -621,13 +621,13 @@ PASSWORD
 
 ```
 ``` Multiple Password Resets ```
-index=windows source="wineventlog:security"  EventCode=4724
+`windows_event_index` source="wineventlog:security"  EventCode=4724
 ``` Custom CIM Field Handling ```
 | eval dest_user=coalesce(dest_user,user)
 ``` Alert Details ```
 | eval alert_name="UC08 - Multiple password changes for different users from the same source"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Persistence"
 | eval mitre_technique="Account Manipulation" 
@@ -735,13 +735,13 @@ Set-ADAccountPassword -Identity $user -Reset -NewPassword (ConvertTo-SecureStrin
 #### Search
 ```
 ``` Firewall Blocked Application Listener ```
-index=windows source="wineventlog:security"  EventCode=5031
+`windows_event_index` source="wineventlog:security"  EventCode=5031
 ``` Custom CIM Field Handling ```
 | eval process=coalesce(process,Application)
 ``` Alert Details ```
 | eval alert_name="UC09 - Firewall incoming application traffic blocked"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Command and Control"
 | eval mitre_technique="Application Layer Protocol" 
@@ -819,13 +819,13 @@ $msg = Receive-TCPMessage -Port 29800
 #### Search
 ```
 ``` Firewall Policy Changed ```
-index=windows source="wineventlog:security"  EventCode=4954
+`windows_event_index` source="wineventlog:security"  EventCode=4954
 ``` Custom CIM Field Handling ```
 | eval process=coalesce(process,Application)
 ``` Alert Details ```
 | eval alert_name="UC10 - Group Policy settings for Windows Firewall has changed"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Command and Control"
 | eval mitre_technique="Application Layer Protocol" 
@@ -857,11 +857,11 @@ index=windows source="wineventlog:security"  EventCode=4954
 #### Search
 ```
 ``` Password Hash Access ```
-index=windows source="wineventlog:security"  EventCode=4782
+`windows_event_index` source="wineventlog:security"  EventCode=4782
 ``` Alert Details ```
 | eval alert_name="UC11 - Password Hash for an account accessed"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Credential Access"
 | eval mitre_technique="OS Credential Dumping" 
@@ -901,11 +901,11 @@ index=windows source="wineventlog:security"  EventCode=4782
 #### Search
 ```
 ``` Firewall Modification ```
-index=windows source="wineventlog:security"  EventCode=4946
+`windows_event_index` source="wineventlog:security"  EventCode=4946
 ``` Alert Details ```
 | eval alert_name="UC12 - A rule was added to windows firewall exception list"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Command and Control"
 | eval mitre_technique="Application Layer Protocol" 
@@ -940,7 +940,7 @@ powershell> New-NetFirewallRule -DisplayName "Allow TCP 12345" -Direction Inboun
 #### Search 
 ```
 ``` Firewall Modification ```
-index=windows source="wineventlog:Microsoft-Windows-Windows Firewall With Advanced Security/Firewall"  EventCode=2005
+`windows_event_index` source="wineventlog:Microsoft-Windows-Windows Firewall With Advanced Security/Firewall"  EventCode=2005
 ``` Custom CIM Field Handling ```
 | eval parent_process=coalesce(parent_process,Modifying_Application)
 | eval process=coalesce(process,Application)
@@ -948,7 +948,7 @@ index=windows source="wineventlog:Microsoft-Windows-Windows Firewall With Advanc
 ``` Alert Details ```
 | eval alert_name="UC12 - A rule was added to windows firewall exception list"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Command and Control"
 | eval mitre_technique="Application Layer Protocol" 
@@ -985,11 +985,11 @@ powershell > Set-NetFirewallRule -DisplayName "Allow TCP 12345" -RemoteAddress "
 #### Search
 ```
 ``` Firewall Setting Change ```
-index=windows source="wineventlog:security"  EventCode=4950
+`windows_event_index` source="wineventlog:security"  EventCode=4950
 ``` Alert Details ```
 | eval alert_name="UC13 - A setting was changed in windows firewall"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Defense Evasion"
 | eval mitre_technique="Impair Defenses" 
@@ -1026,11 +1026,11 @@ powershell > Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled Fals
 #### Search
 ```
 ``` Windows Registry Modification ```
-index=windows source="wineventlog:security"  EventCode=4657
+`windows_event_index` source="wineventlog:security"  EventCode=4657
 ``` Alert Details ```
 | eval alert_name="UC14 - Windows registry modified"
 | eval alert_level="RED"
-| eval customer="customerx"
+| eval customer="`customer_name`"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Defense Evasion"
 | eval mitre_technique="Impair Defenses" 

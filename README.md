@@ -9,6 +9,8 @@ Example security dashboard with event alerting work flows for Active Directory a
 * Create an index for the active directory summary info (e.g. activedirectory)
 * Update the securityevents_index macro with your index name (Settings > Advanced Search > Search Macros)
 * Update the activedirectory_index macro with your index name (Settings > Advanced Search > Search Macros)
+* Update the windows_event_index macro with your Windows event log index (Settings > Advanced Search > Search Macros)
+* Update the customer_name macro with your company name (Settings > Advanced Search > Search Macros)
 
 ### Setup Security Monitoring Use Cases
 * Review the Default Security Use Cases and Disable/Enable Scheduled Searches As Required (Settings > Searches, Reports, and Alerts)

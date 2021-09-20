@@ -47,7 +47,7 @@
       <valueSuffix>"</valueSuffix>
       <delimiter> OR </delimiter>
       <search>
-        <query>index=windows source="WinEventLog*" | stats count by host</query>
+        <query>`windows_event_index` source="WinEventLog*" | stats count by host</query>
         <earliest>$interval.earliest$</earliest>
         <latest>$interval.latest$</latest>
       </search>
@@ -71,7 +71,7 @@
       <delimiter> AND </delimiter>
       <choice value="none">None</choice>
       <search>
-        <query>index=windows source="WinEventLog*" $Type$ AND $Computer$ AND $keyword$ | stats count by SourceName</query>
+        <query>`windows_event_index` source="WinEventLog*" $Type$ AND $Computer$ AND $keyword$ | stats count by SourceName</query>
         <earliest>$interval.earliest$</earliest>
         <latest>$interval.latest$</latest>
       </search>
@@ -84,7 +84,7 @@
       <title>Errors</title>
       <single>
         <search>
-          <query>index=windows source="WinEventLog*" Type="Error" AND $Computer$ AND $keyword$ |  stats count</query>
+          <query>`windows_event_index` source="WinEventLog*" Type="Error" AND $Computer$ AND $keyword$ |  stats count</query>
           <earliest>$interval.earliest$</earliest>
           <latest>$interval.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -112,7 +112,7 @@
       <title>Warnings</title>
       <single>
         <search>
-          <query>index=windows source="WinEventLog*" Type="Warning" AND $Computer$ AND $keyword$ |  stats count</query>
+          <query>`windows_event_index` source="WinEventLog*" Type="Warning" AND $Computer$ AND $keyword$ |  stats count</query>
           <earliest>$interval.earliest$</earliest>
           <latest>$interval.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -140,7 +140,7 @@
       <title>Information</title>
       <single>
         <search>
-          <query>index=windows source="WinEventLog*" Type="Information" AND NOT ("Audit Success" OR "Audit Failure") AND $Computer$ AND $keyword$ |  stats count</query>
+          <query>`windows_event_index` source="WinEventLog*" Type="Information" AND NOT ("Audit Success" OR "Audit Failure") AND $Computer$ AND $keyword$ |  stats count</query>
           <earliest>$interval.earliest$</earliest>
           <latest>$interval.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -168,7 +168,7 @@
       <title>Audit Failure</title>
       <single>
         <search>
-          <query>index=windows source="WinEventLog*" "Audit Failure" AND $Computer$ AND $keyword$ 
+          <query>`windows_event_index` source="WinEventLog*" "Audit Failure" AND $Computer$ AND $keyword$ 
 | stats count</query>
           <earliest>$interval.earliest$</earliest>
           <latest>$interval.latest$</latest>
@@ -186,7 +186,7 @@
       <title>Audit Success</title>
       <single>
         <search>
-          <query>index=windows source="WinEventLog*" Keywords="Audit Success" AND $Computer$ AND $keyword$ | stats count</query>
+          <query>`windows_event_index` source="WinEventLog*" Keywords="Audit Success" AND $Computer$ AND $keyword$ | stats count</query>
           <earliest>$interval.earliest$</earliest>
           <latest>$interval.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -203,7 +203,7 @@
       <title>Logon Audit Failure</title>
       <single>
         <search>
-          <query>index=windows source="WinEventLog*" Failure_Reason=* ("Audit Failure") AND $Computer$ AND $keyword$ | eval user=mvindex(Account_Name,1) | stats count</query>
+          <query>`windows_event_index` source="WinEventLog*" Failure_Reason=* ("Audit Failure") AND $Computer$ AND $keyword$ | eval user=mvindex(Account_Name,1) | stats count</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
@@ -221,7 +221,7 @@
       <title>Accounts with 3 or more failed logons</title>
       <chart>
         <search>
-          <query>index=windows source="WinEventLog*" Failure_Reason=* * ("Audit Failure") AND $Computer$ AND $keyword$ | stats count by user | where count &gt; 2</query>
+          <query>`windows_event_index` source="WinEventLog*" Failure_Reason=* * ("Audit Failure") AND $Computer$ AND $keyword$ | stats count by user | where count &gt; 2</query>
           <earliest>$interval.earliest$</earliest>
           <latest>$interval.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -256,7 +256,7 @@
       <title>Top computers generating events</title>
       <chart>
         <search>
-          <query>index=windows source="WinEventLog*" AND $Computer$ AND $keyword$ AND ($Audit_Type$ OR $Type$)
+          <query>`windows_event_index` source="WinEventLog*" AND $Computer$ AND $keyword$ AND ($Audit_Type$ OR $Type$)
 | eval SourceName = coalesce(SourceName,source)
 | fillnull 
 | search $sourcetype_token$
@@ -275,7 +275,7 @@
       <title>Windows events over time</title>
       <chart>
         <search>
-          <query>index=windows source="WinEventLog*" AND $Computer$ AND $keyword$ AND ($Audit_Type$ OR $Type$)
+          <query>`windows_event_index` source="WinEventLog*" AND $Computer$ AND $keyword$ AND ($Audit_Type$ OR $Type$)
 | timechart count</query>
           <earliest>$interval.earliest$</earliest>
           <latest>$interval.latest$</latest>
@@ -300,7 +300,7 @@
       <title>Events Summary - links to www.ultimatewindowssecurity.com</title>
       <table id="link2">
         <search>
-          <query>index=windows source="WinEventLog*" AND $Computer$ AND $keyword$ AND ($Audit_Type$ OR $Type$) 
+          <query>`windows_event_index` source="WinEventLog*" AND $Computer$ AND $keyword$ AND ($Audit_Type$ OR $Type$) 
 | eval SourceName = coalesce(SourceName,Provider)
 | eval Type = coalesce(Type,Keyword)
 | fillnull value="-"
@@ -329,7 +329,7 @@
       <title>Events List</title>
       <table id="link">
         <search>
-          <query>index=windows source="WinEventLog*" AND $Computer$ AND $keyword$ AND ($Audit_Type$ OR $Type$)
+          <query>`windows_event_index` source="WinEventLog*" AND $Computer$ AND $keyword$ AND ($Audit_Type$ OR $Type$)
 | eval SourceName = coalesce(SourceName,Provider)
 | eval Type = coalesce(Type,Keyword)
 | fillnull 
