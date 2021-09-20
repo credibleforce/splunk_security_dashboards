@@ -15,6 +15,7 @@
             <li>Update the activedirectory_index macro with your index name (<a href="/manager/security_dashboards/data/macros">Settings > Advanced Search > Search Macros</a>)</li>
             <li>Update the windows_event_index macro with your Windows event log index name (<a href="/manager/security_dashboards/data/macros">Settings > Advanced Search > Search Macros</a>)</li>
             <li>Update the customer_name macro with your company name (<a href="/manager/security_dashboards/data/macros">Settings > Advanced Search > Search Macros</a>)</li>
+            <li>For each of the domains that should be monitored add an entry to the lookup table ldap_domains.csv. The domain and baseDN fields should match the name of the setting you configured in the Add-on for ActiveDirectory.</li>
             <li>Review the Default Security Use Cases and Disable/Enable Scheduled Searches As Required (<a href="/manager/security_dashboards/saved/searches?&amp;owner=all&amp;search=UC">Settings > Searches, Reports, and Alerts</a>)</li>
             <li>Review the Default Active Directory Summary Searches and Disable/Enable Scheduled Searches As Required (<a href="/manager/security_dashboards/saved/searches?&amp;owner=all&amp;search=ActiveDirectory">Settings > Searches, Reports, and Alerts</a>)</li>
             <li>In order to use the Active Directory summaries ensure the Add-on for ActiveDirectory is installed and configured (<a href="https://splunkbase.splunk.com/app/1151/">https://splunkbase.splunk.com/app/1151/</a>)</li>
