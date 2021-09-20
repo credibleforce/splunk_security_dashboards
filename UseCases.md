@@ -112,7 +112,7 @@ index=windows source="wineventlog:security" signature_id=4625
 ``` Alert Details ```
 | eval alert_name="UC01 - Many Failed Logins Per User"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Brute Force: Password Guessing"
 | eval mitre_technique="Credential Access" 
@@ -142,7 +142,7 @@ index=windows source="wineventlog:security" signature_id=4625
 ``` Alert Details ```
 | eval alert_name="UC01 - Many Failed Logins Per User"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Brute Force: Password Guessing"
 | eval mitre_technique="Credential Access" 
@@ -258,7 +258,7 @@ index=windows source="wineventlog:security"
 ``` Alert Details ```
 | eval alert_name="UC01 - Many Failed Logins Per User"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Credential Access"
 | eval mitre_technique="Brute Force: Password Guessing" 
@@ -367,7 +367,7 @@ index=windows source="wineventlog:security"  EventCode=1102
 ``` Alert Details ```
 | eval alert_name="UC02 - Event Log Cleared"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Defense Evasion"
 | eval mitre_technique="Clear Windows Event Logs" 
@@ -408,7 +408,7 @@ index=windows source="wineventlog:system"  EventCode=5829
 ``` Alert Details ```
 | eval alert_name="UC03 - Netlogon service allowed insecure channel"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Lateral Movement"
 | eval mitre_technique="Exploitation of Remote Services" 
@@ -453,7 +453,7 @@ index=windows source="wineventlog:security"  EventCode=6281
 ``` Alert Details ```
 | eval alert_name="UC04 - Improperly signed image loaded into kernel"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Defense Evasion"
 | eval mitre_technique="Code Signing" 
@@ -489,7 +489,7 @@ index=windows source="wineventlog:security"  EventCode=5038
 ``` Alert Details ```
 | eval alert_name="UC05 - Corrupt image loaded"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Defense Evasion"
 | eval mitre_technique="Process Hollowing" 
@@ -528,7 +528,7 @@ index=windows source="wineventlog:security"  EventCode=4740
 ``` Alert Details ```
 | eval alert_name="UC06 - User account locked out"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Credential Access"
 | eval mitre_technique="Brute Force" 
@@ -583,7 +583,7 @@ index=windows source="wineventlog:security"  EventCode=4648
 ``` Alert Details ```
 | eval alert_name="UC07 - Explicit creds used for logon"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Credential Access"
 | eval mitre_technique="Brute Force" 
@@ -627,7 +627,7 @@ index=windows source="wineventlog:security"  EventCode=4724
 ``` Alert Details ```
 | eval alert_name="UC08 - Multiple password changes for different users from the same source"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Persistence"
 | eval mitre_technique="Account Manipulation" 
@@ -741,7 +741,7 @@ index=windows source="wineventlog:security"  EventCode=5031
 ``` Alert Details ```
 | eval alert_name="UC09 - Firewall incoming application traffic blocked"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Command and Control"
 | eval mitre_technique="Application Layer Protocol" 
@@ -825,7 +825,7 @@ index=windows source="wineventlog:security"  EventCode=4954
 ``` Alert Details ```
 | eval alert_name="UC10 - Group Policy settings for Windows Firewall has changed"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Command and Control"
 | eval mitre_technique="Application Layer Protocol" 
@@ -861,7 +861,7 @@ index=windows source="wineventlog:security"  EventCode=4782
 ``` Alert Details ```
 | eval alert_name="UC11 - Password Hash for an account accessed"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Credential Access"
 | eval mitre_technique="OS Credential Dumping" 
@@ -905,7 +905,7 @@ index=windows source="wineventlog:security"  EventCode=4946
 ``` Alert Details ```
 | eval alert_name="UC12 - A rule was added to windows firewall exception list"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Command and Control"
 | eval mitre_technique="Application Layer Protocol" 
@@ -948,7 +948,7 @@ index=windows source="wineventlog:Microsoft-Windows-Windows Firewall With Advanc
 ``` Alert Details ```
 | eval alert_name="UC12 - A rule was added to windows firewall exception list"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Command and Control"
 | eval mitre_technique="Application Layer Protocol" 
@@ -989,7 +989,7 @@ index=windows source="wineventlog:security"  EventCode=4950
 ``` Alert Details ```
 | eval alert_name="UC13 - A setting was changed in windows firewall"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Defense Evasion"
 | eval mitre_technique="Impair Defenses" 
@@ -1030,7 +1030,7 @@ index=windows source="wineventlog:security"  EventCode=4657
 ``` Alert Details ```
 | eval alert_name="UC14 - Windows registry modified"
 | eval alert_level="RED"
-| eval customer="canadaguaranty"
+| eval customer="customerx"
 ``` MITRE Details (if applicable) ```
 | eval mitre_category="Defense Evasion"
 | eval mitre_technique="Impair Defenses" 
