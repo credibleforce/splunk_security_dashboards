@@ -1,8 +1,0 @@
-<nav search_view="search">
-  <view name="welcome" default='true' />
-  <view name="search" />
-  <view name="windows_security_events" />
-  <view name="windows_events_overview" />
-  <view name="active_directory_security" />
-  <view name="dashboards" />
-</nav>

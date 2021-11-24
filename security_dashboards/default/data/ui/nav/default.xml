@@ -1,8 +1,8 @@
 <nav search_view="search">
-  <view name="search" default='true' />
-  <view name="analytics_workspace" />
-  <view name="datasets" />
-  <view name="reports" />
-  <view name="alerts" />
+  <view name="welcome" default='true' />
+  <view name="search" />
+  <view name="windows_security_events" />
+  <view name="windows_events_overview" />
+  <view name="active_directory_security" />
   <view name="dashboards" />
 </nav>
